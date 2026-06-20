@@ -69,14 +69,14 @@
 {
     NSOpenPanel * panel = [NSOpenPanel openPanel];
     
-    [panel setPrompt: NSLocalizedString(@"Select", "Preferences -> Open panel prompt")];
+    [panel setPrompt: NSLocalizedString(@"Select", "Settings -> Open panel prompt")];
     [panel setAllowsMultipleSelection: NO];
     [panel setCanChooseFiles: NO];
     [panel setCanChooseDirectories: YES];
     [panel setCanCreateDirectories: YES];
     
     [panel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result) {
-        if (result == NSFileHandlingPanelOKButton) {
+        if (result == NSModalResponseOK) {
             NSURL *folderURL = [panel URL];
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 #ifdef APP_STORE_BUILD
@@ -112,7 +112,7 @@
 - (void) fixupBitrate
 {
     NSInteger bitrate = [[NSUserDefaults standardUserDefaults] integerForKey:kConfigBitrate];
-    NSInteger newBitrate;
+    NSInteger newBitrate = bitrate;
     NSInteger distance = bitrate;
     
     for (NSNumber *n in self.validBitrates) {

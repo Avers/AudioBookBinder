@@ -38,7 +38,9 @@
         viewLayer.string = @"Queued";
         viewLayer.contentsScale = 2;
         viewLayer.alignmentMode = @"center";
-        [viewLayer setBackgroundColor:CGColorCreateGenericRGB(0.0, 0.0, 0.0, 0.4)]; //RGB plus Alpha Channel
+        CGColorRef bgColor = CGColorCreateGenericRGB(0.0, 0.0, 0.0, 0.4);
+        [viewLayer setBackgroundColor:bgColor]; //RGB plus Alpha Channel
+        CGColorRelease(bgColor);
         [self setWantsLayer:YES]; // view's backing store is using a Core Animation Layer
         [self setLayer:viewLayer];
     }
