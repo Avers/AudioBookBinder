@@ -1,3 +1,7 @@
+= Audiobook Binder
+Audiobook Binder is an actively maintained fork of the original application by Oleksandr Tymoshenko. Modernized and maintained by avers.
+Licensed under the BSD 2-Clause License.
+
 = Command line utility: abbinder 
 As of 1.18 it's part of main bundler. Path to the utility is:
     AudioBookBinder.app/Contents/MacOS/abbinder
