@@ -125,7 +125,7 @@ static BOOL hackChecked = NO;
             [a setMessageText:TEXT_ACTION_REQUIRED];
 
             [a setInformativeText:TEXT_UPGRADE_HACK];
-            [a setAlertStyle:NSWarningAlertStyle];
+            [a setAlertStyle:NSAlertStyleWarning];
             
             [a runModal];
             
@@ -138,7 +138,7 @@ static BOOL hackChecked = NO;
             [panel setCanCreateDirectories: YES];
             [panel setDirectoryURL:[NSURL fileURLWithPath:currentDest]];
             NSInteger result = [panel runModal];
-            if (result == NSOKButton)
+            if (result == NSModalResponseOK)
             {                
                 NSURL *folderURL = [panel URL];
                 NSData* data = [folderURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
