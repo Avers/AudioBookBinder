@@ -45,6 +45,7 @@ extern NSString * const AudioFileListDidAddFilesNotification;
 @property BOOL canPlay;
 @property (copy) NSString* commonAuthor;
 @property (copy) NSString* commonAlbum;
+@property (copy) NSString* detectedCoverPath;
 
 // class methods
 - (id) init;

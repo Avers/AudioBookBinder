@@ -120,6 +120,7 @@ enum abb_form_fields {
 - (void)sound:(NSSound *)sound didFinishPlaying:(BOOL)finishedPlaying;
 - (void)audioFileListDidAddFiles:(NSNotification *)notification;
 - (void)applyCoverFromFirstAudioFileIfNeeded;
+- (void)applyDetectedCoverFileIfNeeded;
 
 @end
 
@@ -211,7 +212,21 @@ enum abb_form_fields {
 
 - (void)audioFileListDidAddFiles:(NSNotification *)notification
 {
+    [self applyDetectedCoverFileIfNeeded];
     [self applyCoverFromFirstAudioFileIfNeeded];
+}
+
+- (void)applyDetectedCoverFileIfNeeded
+{
+    if ([coverImageView haveCover]) {
+        return;
+    }
+
+    NSString *coverPath = fileList.detectedCoverPath;
+    if (coverPath) {
+        coverImageView.coverImageFilename = coverPath;
+        fileList.detectedCoverPath = nil;
+    }
 }
 
 - (void)applyCoverFromFirstAudioFileIfNeeded
@@ -424,6 +439,8 @@ enum abb_form_fields {
         }
         [fileList tryGuessingAuthorAndAlbum];
         [fileListView reloadData];
+        [[NSNotificationCenter defaultCenter] postNotificationName:AudioFileListDidAddFilesNotification
+                                                            object:fileList];
     }
 }
 
@@ -609,6 +626,7 @@ enum abb_form_fields {
     [actorField setStringValue:@""];
     [genresField setStringValue:NSLocalizedString(@"Audiobooks", @"")];
     [fileList removeAllFiles:fileListView];
+    fileList.detectedCoverPath = nil;
     [coverImageView resetImage];
 }
 

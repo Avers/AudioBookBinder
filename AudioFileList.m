@@ -68,6 +68,7 @@ NSString * const AudioFileListDidAddFilesNotification = @"AudioFileListDidAddFil
         self.canPlay = NO;
         _sortAscending = YES;
         _sortKey = nil;
+        self.detectedCoverPath = nil;
     }
     return self;
 }
@@ -129,6 +130,7 @@ NSString * const AudioFileListDidAddFilesNotification = @"AudioFileListDidAddFil
     return NO;
 }
 
+
 - (void) addFilesInDirectory:(NSString*)dirName
 {
     NSString *currentFile;
@@ -148,10 +150,54 @@ NSString * const AudioFileListDidAddFilesNotification = @"AudioFileListDidAddFil
     else
         orderedFiles = [NSArray arrayWithArray:files];
 
+    NSMutableArray *potentialCovers = [[NSMutableArray alloc] init];
+    NSArray *imageExtensions = @[@"png", @"jpg", @"jpeg", @"tiff", @"tif", @"bmp", @"gif", @"webp", @"heic", @"heif"];
 
     for (currentFile in orderedFiles) {
         NSString *currentPath = [dirName stringByAppendingPathComponent:currentFile];
-        [self addFile:currentPath];
+        BOOL isDir = NO;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:currentPath isDirectory:&isDir]) {
+            if (isDir) {
+                // If it's a directory, do not process as file or cover
+                continue;
+            }
+            NSString *extension = [currentPath pathExtension].lowercaseString;
+            if ([imageExtensions containsObject:extension]) {
+                [potentialCovers addObject:currentPath];
+            } else {
+                [self addFile:currentPath];
+            }
+        }
+    }
+
+    if ([potentialCovers count] > 0) {
+        [potentialCovers sortUsingComparator:^NSComparisonResult(NSString *path1, NSString *path2) {
+            NSString *name1 = [[path1 lastPathComponent] lowercaseString];
+            NSString *name2 = [[path2 lastPathComponent] lowercaseString];
+            
+            NSInteger (^getScore)(NSString *) = ^NSInteger(NSString *name) {
+                if ([name containsString:@"cover"]) {
+                    return 0;
+                }
+                if ([name containsString:@"front"] || [name containsString:@"folder"] || [name containsString:@"album"] || [name containsString:@"art"]) {
+                    return 1;
+                }
+                return 2;
+            };
+            
+            NSInteger score1 = getScore(name1);
+            NSInteger score2 = getScore(name2);
+            
+            if (score1 < score2) {
+                return NSOrderedAscending;
+            } else if (score1 > score2) {
+                return NSOrderedDescending;
+            } else {
+                return [path1 compare:path2];
+            }
+        }];
+        
+        self.detectedCoverPath = potentialCovers[0];
     }
 }
 
