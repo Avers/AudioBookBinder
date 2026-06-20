@@ -128,7 +128,7 @@
     static NSMutableParagraphStyle* fileNameStyle = nil;
     if (!fileNameStyle) {
         fileNameStyle = [NSMutableParagraphStyle new];
-        [fileNameStyle setAlignment:NSLeftTextAlignment];
+        [fileNameStyle setAlignment:NSTextAlignmentLeft];
         [fileNameStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
     }
     return fileNameStyle;
@@ -139,7 +139,7 @@
     static NSMutableParagraphStyle* statusStyle = nil;
     if (!statusStyle) {
         statusStyle = [NSMutableParagraphStyle new];
-        [statusStyle setAlignment:NSLeftTextAlignment];
+        [statusStyle setAlignment:NSTextAlignmentLeft];
         [statusStyle setLineBreakMode:NSLineBreakByTruncatingTail];
     }
     return statusStyle;

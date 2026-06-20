@@ -95,7 +95,7 @@
         
         NSRect gradRect = NSZeroRect;
         gradRect.size = [sProgressGradient size];
-        [sProgressGradient drawInRect: done fromRect: gradRect operation: NSCompositeCopy
+        [sProgressGradient drawInRect: done fromRect: gradRect operation: NSCompositingOperationCopy
                              fraction: 1.0];
         
         [[NSColor blackColor] set];

@@ -38,5 +38,6 @@
 @property(readwrite, copy) NSString *album;
 
 - (id) initWithPath:(NSString*)path;
+- (NSData *)artworkData;
 
 @end

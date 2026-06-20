@@ -36,6 +36,8 @@
 #define COLUMNID_ALBUM          @"album"
 #define COLUMNID_TIME           @"duration"
 
+extern NSString * const AudioFileListDidAddFilesNotification;
+
 @interface AudioFileList : NSObject<NSOutlineViewDataSource, ExtendedNSOutlineViewDelegate> 
 
 @property (readonly, getter=hasFiles) BOOL hasFiles;

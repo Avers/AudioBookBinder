@@ -40,6 +40,8 @@
 #define TEXT_CHAPTER_N  \
     NSLocalizedString(@"Chapter %d", nil)
 
+NSString * const AudioFileListDidAddFilesNotification = @"AudioFileListDidAddFilesNotification";
+
 @interface AudioFileList() {
     NSMutableArray *_files;
     NSMutableArray *_chapters;
@@ -391,14 +393,14 @@
     _draggedNodes = [items copy]; 
     
     // Provide data for our custom type, and simple NSStrings.    
-    [pboard declareTypes:[NSArray arrayWithObjects:SIMPLE_BPOARD_TYPE, NSStringPboardType, NSFilesPromisePboardType, nil] 
+    [pboard declareTypes:[NSArray arrayWithObjects:SIMPLE_BPOARD_TYPE, NSPasteboardTypeString, NSFilesPromisePboardType, nil] 
                    owner:self];
     
     // the actual data doesn't matter since SIMPLE_BPOARD_TYPE drags aren't recognized by anyone but us!.
     [pboard setData:[NSData data] forType:SIMPLE_BPOARD_TYPE]; 
     
     // Put string data on the pboard... notice you can drag into TextEdit!
-    [pboard setString:[_draggedNodes description] forType:NSStringPboardType];
+    [pboard setString:[_draggedNodes description] forType:NSPasteboardTypeString];
     
     // Put the promised type we handle on the pasteboard.
     [pboard setPropertyList:[NSArray arrayWithObjects:@"txt", nil] forType:NSFilesPromisePboardType];
@@ -523,7 +525,7 @@
     else {
         // drop from external source
         NSPasteboard *paste = [info draggingPasteboard];    //gets the dragging-specific pasteboard from the sender
-        NSArray *types = [NSArray arrayWithObjects: NSFilenamesPboardType, nil];
+        NSArray *types = [NSArray arrayWithObjects: NSPasteboardTypeFileURL, nil];
         //a list of types that we can accept
         NSString *desiredType = [paste availableTypeFromArray:types];
         NSData *carriedData = [paste dataForType:desiredType];
@@ -531,18 +533,19 @@
         if (nil == carriedData)
             return NSDragOperationNone;
         
-        if ([desiredType isEqualToString:NSFilenamesPboardType])
+        if ([desiredType isEqualToString:NSPasteboardTypeFileURL])
         {
-            //we have a list of file names in an NSData object
-            NSArray *fileArray;
+            NSArray *fileURLs;
+            NSUInteger oldFileCount = [[self files] count];
             BOOL sortFiles = [[NSUserDefaults standardUserDefaults] boolForKey:kConfigSortAudioFiles];
 
+            fileURLs = [paste readObjectsForClasses:@[[NSURL class]]
+                                            options:@{ NSPasteboardURLReadingFileURLsOnlyKey : @YES }];
             if (sortFiles)
-                fileArray = [[paste propertyListForType:@"NSFilenamesPboardType"] sortedArrayUsingComparator:^(id a, id b) {return [a compare:b];}];
-            else
-                fileArray = [paste propertyListForType:@"NSFilenamesPboardType"];
+                fileURLs = [fileURLs sortedArrayUsingComparator:^NSComparisonResult(NSURL *a, NSURL *b) {return [[a path] compare:[b path]];}];
 
-            for (NSString *s in fileArray) {
+            for (NSURL *url in fileURLs) {
+                NSString *s = [[url filePathURL] path] ?: [url path];
                 BOOL isDir;
 
                 if ([[NSFileManager defaultManager] fileExistsAtPath:s isDirectory:&isDir])
@@ -556,6 +559,10 @@
             }
             
             [self tryGuessingAuthorAndAlbum];
+            if ([[self files] count] > oldFileCount) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:AudioFileListDidAddFilesNotification
+                                                                    object:self];
+            }
         }
     }
     [outlineView reloadData];

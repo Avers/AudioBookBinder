@@ -26,6 +26,7 @@
 //
 
 #import "CoverImageView.h"
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
 @interface CoverImageView() {
     NSMutableDictionary *attributes;
@@ -37,6 +38,7 @@
 
 - (void) drawStringCenteredIn: (NSRect) bounds;
 - (void) prepareAttributes;
+- (NSArray<NSURL *> *)fileURLsFromPasteboard:(NSPasteboard *)pasteboard;
 @end
 
 @implementation CoverImageView
@@ -50,8 +52,8 @@
         normalColor = [NSColor colorWithCalibratedWhite:0.4 alpha:1];
         [self prepareAttributes];
         string = NSLocalizedString(@"⌘ + I\nor\nDrag Image Here", nil);
-        [self registerForDraggedTypes:[NSArray arrayWithObjects:NSTIFFPboardType, 
-                                       NSFilenamesPboardType, nil]];
+        [self registerForDraggedTypes:[NSArray arrayWithObjects:NSPasteboardTypeTIFF,
+                                       NSPasteboardTypeFileURL, nil]];
         self.coverImageFilename = nil;
 
     }
@@ -67,12 +69,39 @@
 
     NSMutableParagraphStyle *centeredStyle = 
         [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-    [centeredStyle setAlignment:NSCenterTextAlignment];
+    [centeredStyle setAlignment:NSTextAlignmentCenter];
 
     [attributes setObject:[centeredStyle copy]
                    forKey:NSParagraphStyleAttributeName];
 
     
+}
+
+- (NSArray<NSURL *> *)fileURLsFromPasteboard:(NSPasteboard *)pasteboard
+{
+    NSMutableArray<NSURL *> *fileURLs = [NSMutableArray array];
+
+    NSArray *urls = [pasteboard readObjectsForClasses:@[[NSURL class]]
+                                              options:@{ NSPasteboardURLReadingFileURLsOnlyKey : @YES }];
+    for (NSURL *url in urls) {
+        NSURL *filePathURL = [url filePathURL];
+        [fileURLs addObject:filePathURL ?: url];
+    }
+
+    if ([fileURLs count] == 0) {
+        id fileURLObject = [pasteboard propertyListForType:NSPasteboardTypeFileURL];
+        if ([fileURLObject isKindOfClass:[NSString class]]) {
+            NSURL *url = [NSURL URLWithString:fileURLObject];
+            NSURL *filePathURL = [url filePathURL];
+            if (filePathURL) {
+                [fileURLs addObject:filePathURL];
+            } else if ([fileURLObject hasPrefix:@"/"]) {
+                [fileURLs addObject:[NSURL fileURLWithPath:fileURLObject]];
+            }
+        }
+    }
+
+    return fileURLs;
 }
 
 - (void) resetImage
@@ -166,7 +195,7 @@
         [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
         [_coverImage drawInRect:NSMakeRect(0, 0, scaledSize.width, scaledSize.height)
                     fromRect:NSMakeRect(0, 0, origSize.width, origSize.height)
-                   operation:NSCompositeSourceOver 
+                      operation:NSCompositingOperationSourceOver 
                     fraction:1.0];
         [scaledImage unlockFocus];
     }
@@ -249,10 +278,10 @@
         
         CGFloat arr[2];
         arr[0] = 5.0;
-        arr[1] = 2.0;
+        arr[1] = 8.0;
         
         [bgPath setLineDash:arr count:2 phase:0.0];
-        [bgPath setLineCapStyle:NSRoundLineCapStyle];
+        [bgPath setLineCapStyle:NSLineCapStyleRound];
         [bgPath stroke];
         [self drawStringCenteredIn:[self bounds]];
     }
@@ -264,7 +293,7 @@
         orig.x = (viewSize.size.width - imageSize.width) / 2;
         orig.y = (viewSize.size.height - imageSize.height) / 2;
         
-        [scaledImage drawAtPoint:orig fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0];
+        [scaledImage drawAtPoint:orig fromRect:imageRect operation:NSCompositingOperationSourceOver fraction:1.0];
     }
     
 }
@@ -277,8 +306,8 @@
     
     NSPasteboard *paste = [sender draggingPasteboard];
     //gets the dragging-specific pasteboard from the sender
-    NSArray *types = [NSArray arrayWithObjects:NSTIFFPboardType, 
-                      NSFilenamesPboardType, nil];
+    NSArray *types = [NSArray arrayWithObjects:NSPasteboardTypeTIFF, 
+                      NSPasteboardTypeFileURL, nil];
     //a list of types that we can accept
     NSString *desiredType = [paste availableTypeFromArray:types];
     NSData *carriedData = [paste dataForType:desiredType];
@@ -286,11 +315,10 @@
     if (nil == carriedData)
         return NSDragOperationNone;
 
-    if ([desiredType isEqualToString:NSFilenamesPboardType])
+    if ([desiredType isEqualToString:NSPasteboardTypeFileURL])
     {
-        //we have a list of file names in an NSData object
-        NSArray *fileArray = [paste propertyListForType:@"NSFilenamesPboardType"];
-        if ([fileArray count] > 1) {
+        NSArray *fileURLs = [self fileURLsFromPasteboard:paste];
+        if ([fileURLs count] > 1) {
             return NSDragOperationNone;
         }
     }
@@ -316,8 +344,8 @@
 {
     NSPasteboard *paste = [sender draggingPasteboard];
     //gets the dragging-specific pasteboard from the sender
-    NSArray *types = [NSArray arrayWithObjects:NSTIFFPboardType, 
-                      NSFilenamesPboardType, nil];
+    NSArray *types = [NSArray arrayWithObjects:NSPasteboardTypeTIFF, 
+                      NSPasteboardTypeFileURL, nil];
     //a list of types that we can accept
     NSString *desiredType = [paste availableTypeFromArray:types];
     NSData *carriedData = [paste dataForType:desiredType];
@@ -333,7 +361,7 @@
     {
         NSImage *newImage = nil;
         //the pasteboard was able to give us some meaningful data
-        if ([desiredType isEqualToString:NSTIFFPboardType])
+        if ([desiredType isEqualToString:NSPasteboardTypeTIFF])
         {
             [self resetImage];
             //we have TIFF bitmap data in the NSData object
@@ -342,16 +370,62 @@
             if (newImage == nil)
                 return NO;
         }
-        else if ([desiredType isEqualToString:NSFilenamesPboardType])
+        else if ([desiredType isEqualToString:NSPasteboardTypeFileURL])
         {
-            //we have a list of file names in an NSData object
-            NSArray *fileArray = [paste propertyListForType:@"NSFilenamesPboardType"];
-            //be caseful since this method returns id.  
-            //We just happen to know that it will be an array.
-            NSString *path = [fileArray objectAtIndex:0];
-            //assume that we can ignore all but the first path in the list
+            NSURL* url = nil;
+            NSArray<NSURL *> *fileURLs = [self fileURLsFromPasteboard:paste];
+            if ([fileURLs count] > 0) {
+                NSMutableArray<NSURL *> *imageURLs = [NSMutableArray array];
+                NSFileManager *fm = NSFileManager.defaultManager;
+
+                for (NSURL *fileURL in fileURLs) {
+                    BOOL dir;
+                    if ([fm fileExistsAtPath:fileURL.path isDirectory:&dir] && dir) {
+                        NSArray *directoryURLs = [fm contentsOfDirectoryAtURL:fileURL
+                                                   includingPropertiesForKeys:@[NSURLContentTypeKey]
+                                                                      options:0
+                                                                        error:nil];
+                        for (NSURL *directoryURL in directoryURLs) {
+                            UTType *contentType;
+                            [directoryURL getResourceValue:&contentType forKey:NSURLContentTypeKey error:nil];
+                            if ([contentType conformsToType:UTTypeImage]) {
+                                [imageURLs addObject:directoryURL];
+                            }
+                        }
+                        continue;
+                    }
+
+                    UTType *contentType;
+                    [fileURL getResourceValue:&contentType forKey:NSURLContentTypeKey error:nil];
+
+                    if ([contentType conformsToType:UTTypeImage]) {
+                        [imageURLs addObject:fileURL];
+                    }
+                }
+
+                [imageURLs sortUsingComparator:^NSComparisonResult(NSURL *url1, NSURL *url2) {
+                    NSString *name1 = url1.lastPathComponent.lowercaseString;
+                    NSString *name2 = url2.lastPathComponent.lowercaseString;
+
+                    BOOL hasCover1 = [name1 containsString:@"cover"];
+                    BOOL hasCover2 = [name2 containsString:@"cover"];
+
+                    if (hasCover1 && !hasCover2) {
+                        return NSOrderedAscending;
+                    } else if (!hasCover1 && hasCover2) {
+                        return NSOrderedDescending;
+                    } else {
+                        return NSOrderedSame;
+                    }
+                }];
+
+                if ([imageURLs count] > 0) {
+                    url = imageURLs[0];
+                }
+            }
             
-            self.coverImageFilename = path;
+            if (url)
+                self.coverImageFilename = url.path;
             
             if (self.coverImageFilename == nil)
                 return NO;

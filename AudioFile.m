@@ -107,4 +107,37 @@
     CFRelease(url);
 }
 
+- (NSData *)artworkData
+{
+    NSData *result = nil;
+    AudioFileID audioFile;
+    CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault,
+                                                 (CFStringRef)self.filePath,
+                                                 kCFURLPOSIXPathStyle, FALSE);
+
+    if (AudioFileOpenURL(url, 0x01, 0, &audioFile) == noErr) {
+        UInt32 writable = 0;
+        UInt32 size = 0;
+        OSStatus status = AudioFileGetPropertyInfo(audioFile,
+                                                   kAudioFilePropertyAlbumArtwork,
+                                                   &size,
+                                                   &writable);
+        if (status == noErr && size > 0) {
+            CFDataRef artworkData = NULL;
+            status = AudioFileGetProperty(audioFile,
+                                          kAudioFilePropertyAlbumArtwork,
+                                          &size,
+                                          &artworkData);
+            if (status == noErr && artworkData != NULL) {
+                result = CFBridgingRelease(artworkData);
+            }
+        }
+        AudioFileClose(audioFile);
+    }
+
+    CFRelease(url);
+
+    return result;
+}
+
 @end

@@ -118,6 +118,8 @@ enum abb_form_fields {
 
 - (void)playFailed;
 - (void)sound:(NSSound *)sound didFinishPlaying:(BOOL)finishedPlaying;
+- (void)audioFileListDidAddFiles:(NSNotification *)notification;
+- (void)applyCoverFromFirstAudioFileIfNeeded;
 
 @end
 
@@ -140,6 +142,9 @@ enum abb_form_fields {
     [fileList removeObserver:self forKeyPath:@"canPlay"];
     [fileList removeObserver:self forKeyPath:@"commonAuthor"];
     [fileList removeObserver:self forKeyPath:@"commonAlbum"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AudioFileListDidAddFilesNotification
+                                                  object:fileList];
 }
 
 - (void)windowDidLoad
@@ -150,10 +155,14 @@ enum abb_form_fields {
     [fileListView setDataSource:fileList];
     [fileListView setDelegate:fileList];
     [fileListView setAllowsMultipleSelection:YES];
-    [fileListView registerForDraggedTypes:[NSArray arrayWithObjects:NSStringPboardType, NSFilenamesPboardType, nil]];
+    [fileListView registerForDraggedTypes:[NSArray arrayWithObjects:NSPasteboardTypeString, NSPasteboardTypeFileURL, nil]];
     [fileListView setDraggingSourceOperationMask:NSDragOperationEvery forLocal:YES];
     [fileListView setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
     [fileListView setAutoresizesOutlineColumn:NO];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(audioFileListDidAddFiles:)
+                                                 name:AudioFileListDidAddFilesNotification
+                                               object:fileList];
     // expand initial chapter if chapter mode is enabled
     [fileListView expandItem:nil expandChildren:YES];
     
@@ -161,12 +170,8 @@ enum abb_form_fields {
     _playing = NO;
     _converting = NO;
     _enqueued = NO;
-    NSString* img = [[NSBundle mainBundle] pathForResource:@"Play" ofType:@"png"];
-    NSURL* url = [NSURL fileURLWithPath:img];
-    _playImg = [[NSImage alloc] initWithContentsOfURL:url];
-    img = [[NSBundle mainBundle] pathForResource:@"Stop" ofType:@"png"];
-    url = [NSURL fileURLWithPath:img];
-    _stopImg = [[NSImage alloc] initWithContentsOfURL:url];
+    _playImg = [NSImage imageWithSystemSymbolName:@"play.circle" accessibilityDescription:nil];
+    _stopImg = [NSImage imageWithSystemSymbolName:@"stop.circle" accessibilityDescription:nil];
     
     [playButton setImage:_playImg] ;
     [playButton setEnabled:NO];
@@ -202,6 +207,34 @@ enum abb_form_fields {
     [self.window setDelegate:delegate];
     
     // _queueOverlay = [[QueueOverlayView alloc] init];
+}
+
+- (void)audioFileListDidAddFiles:(NSNotification *)notification
+{
+    [self applyCoverFromFirstAudioFileIfNeeded];
+}
+
+- (void)applyCoverFromFirstAudioFileIfNeeded
+{
+    if ([coverImageView haveCover]) {
+        return;
+    }
+
+    NSArray *files = [fileList files];
+    if ([files count] == 0) {
+        return;
+    }
+
+    AudioFile *firstFile = [files objectAtIndex:0];
+    NSData *artworkData = [firstFile artworkData];
+    if (artworkData == nil) {
+        return;
+    }
+
+    NSImage *artworkImage = [[NSImage alloc] initWithData:artworkData];
+    if (artworkImage != nil) {
+        coverImageView.coverImage = artworkImage;
+    }
 }
 
 - (void)setupColumns {
@@ -277,7 +310,7 @@ enum abb_form_fields {
         NSMenuItem *item = [tableHeaderContextMenu addItemWithTitle:title action:@selector(contextMenuSelected:) keyEquivalent:@""];
         [item setTarget:self];
         [item setRepresentedObject:columnDefs[idx].id];
-        [item setState:columnDefs[idx].enabled?NSOnState:NSOffState];
+        [item setState:columnDefs[idx].enabled ? NSControlStateValueOn : NSControlStateValueOff];
     }
     
     
@@ -365,7 +398,7 @@ enum abb_form_fields {
     [openDlg setCanChooseDirectories:YES];
     [openDlg setAllowsMultipleSelection:YES];
 
-    if ( [openDlg runModal] == NSOKButton )
+    if ( [openDlg runModal] == NSModalResponseOK )
     {
         BOOL sortFiles = [[NSUserDefaults standardUserDefaults] boolForKey:kConfigSortAudioFiles];
         NSArray *urls;
@@ -438,7 +471,7 @@ enum abb_form_fields {
     
     
     /* if successful, save file under designated name */
-    if (choice == NSOKButton)
+    if (choice == NSModalResponseOK)
     {
         [bindButton setEnabled:FALSE];
         outFile = [[savePanel URL] path];
@@ -470,7 +503,7 @@ enum abb_form_fields {
             [panel setCanCreateDirectories: YES];
             [panel setDirectoryURL:[NSURL fileURLWithPath:currentDest]];
             NSInteger result = [panel runModal];
-            if (result == NSOKButton)
+            if (result == NSModalResponseOK)
             {
                 _destURL = [panel URL];
                 destPath = [_destURL path];
@@ -498,7 +531,7 @@ enum abb_form_fields {
         [a addButtonWithTitle:TEXT_CANCEL];
         
         [a setMessageText:TEXT_FILE_EXISTS];
-        [a setAlertStyle:NSWarningAlertStyle];
+        [a setAlertStyle:NSAlertStyleWarning];
         [a setInformativeText: [NSString stringWithFormat:TEXT_FILE_OVERWRITE, outFile]];
         NSInteger result = [a runModal];
         if (result == NSAlertSecondButtonReturn) {
@@ -527,7 +560,7 @@ enum abb_form_fields {
     [openDlg setCanChooseDirectories:NO];
     [openDlg setAllowsMultipleSelection:NO];
     
-    if ( [openDlg runModal] == NSOKButton )
+    if ( [openDlg runModal] == NSModalResponseOK )
     {
         NSURL *url = [openDlg URL];
         
@@ -574,7 +607,7 @@ enum abb_form_fields {
     [authorField setStringValue:@""];
     [titleField setStringValue:@""];
     [actorField setStringValue:@""];
-    [genresField setStringValue:@"Audiobooks"];
+    [genresField setStringValue:NSLocalizedString(@"Audiobooks", @"")];
     [fileList removeAllFiles:fileListView];
     [coverImageView resetImage];
 }
@@ -695,10 +728,10 @@ enum abb_form_fields {
                         NSAlert *alert = [[NSAlert alloc] init];
                         NSString *msg = [NSString stringWithFormat:TEXT_MAXDURATION_VIOLATED,
                                      [file.filePath UTF8String], [file.duration intValue]/1000, maxVolumeDuration];
-                        [alert addButtonWithTitle:@"OK"];
+                        [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
                         [alert setMessageText:TEXT_CANT_SPLIT];
                         [alert setInformativeText:msg];
-                        [alert setAlertStyle:NSWarningAlertStyle];
+                        [alert setAlertStyle:NSAlertStyleWarning];
                         [alert runModal];
                     });
                     return;
@@ -743,24 +776,13 @@ enum abb_form_fields {
                 BOOL temporaryFile = NO;
                 if ([coverImageView haveCover]) {
                     if ([coverImageView shouldConvert]) {
-                        NSString *tempFileTemplate =
-                        [NSTemporaryDirectory() stringByAppendingPathComponent:@"coverimg.XXXXXX"];
-                        const char *tempFileTemplateCString =
-                        [tempFileTemplate fileSystemRepresentation];
-                        char *tempFileNameCString = (char *)malloc(strlen(tempFileTemplateCString) + 1);
-                        strcpy(tempFileNameCString, tempFileTemplateCString);
-                        if (mktemp(tempFileNameCString)) {
-                            coverImageFilename = [NSString stringWithCString:tempFileNameCString encoding:NSUTF8StringEncoding];
-                            NSData *imgData = [coverImage TIFFRepresentation];
-                            NSDictionary *dict = [[NSDictionary alloc] init];
-                            [[[NSBitmapImageRep imageRepWithData:imgData]
-                              representationUsingType:NSPNGFileType properties:dict]
-                             writeToFile:coverImageFilename atomically:YES];
-                            temporaryFile = YES;
-                        }
-                        else {
-                            NSLog(@"Failed to generate tmp filename");
-                        }
+                        NSString *uuid = [[NSUUID UUID] UUIDString];
+                        coverImageFilename = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"coverimg-%@.png", uuid]];
+                        NSData *imgData = [coverImage TIFFRepresentation];
+                        [[[NSBitmapImageRep imageRepWithData:imgData]
+                          representationUsingType:NSBitmapImageFileTypePNG properties:@{}]
+                         writeToFile:coverImageFilename atomically:YES];
+                        temporaryFile = YES;
                     }
                     else {
                         coverImageFilename = coverImageView.coverImageFilename;
@@ -879,10 +901,10 @@ enum abb_form_fields {
     
     dispatch_async(dispatch_get_main_queue(), ^{
         NSAlert *alert = [[NSAlert alloc] init];
-        [alert addButtonWithTitle:@"OK"];
+        [alert addButtonWithTitle:NSLocalizedString(@"OK",@"")];
         [alert setMessageText:TEXT_CONVERSION_FAILED];
         [alert setInformativeText:reason];
-        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setAlertStyle:NSAlertStyleWarning];
         [alert runModal];
     });
     return NO;
@@ -893,10 +915,10 @@ enum abb_form_fields {
     
     dispatch_async(dispatch_get_main_queue(), ^{
         NSAlert *alert = [[NSAlert alloc] init];
-        [alert addButtonWithTitle:@"OK"];
+        [alert addButtonWithTitle:NSLocalizedString(@"OK", @"")];
         [alert setMessageText:TEXT_BINDING_FAILED];
         [alert setInformativeText:reason];
-        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setAlertStyle:NSAlertStyleWarning];
         [alert runModal];
     });
 }
@@ -943,7 +965,6 @@ enum abb_form_fields {
     if ([item isKindOfClass:[AudioFile class]]) {
         AudioFile *file = (AudioFile *)item;
         [playButton setImage:_stopImg] ;
-        
         _playingFile = [file.filePath copy];
         _sound = [[NSSound alloc] initWithContentsOfFile:file.filePath byReference:NO];
         [_sound setDelegate:self];
@@ -967,10 +988,10 @@ enum abb_form_fields {
 {
     NSAlert *alert = [[NSAlert alloc] init];
     NSString *msg = [NSString stringWithFormat:TEXT_CANT_PLAY, _playingFile];
-    [alert addButtonWithTitle:@"OK"];
+    [alert addButtonWithTitle:NSLocalizedString(@"OK", @"")];
     [alert setMessageText:TEXT_FAILED_TO_PLAY];
     [alert setInformativeText:msg];
-    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setAlertStyle:NSAlertStyleWarning];
     [alert runModal];
 }
 
@@ -979,8 +1000,8 @@ enum abb_form_fields {
 - (void)contextMenuSelected:(id)sender
 {
     NSMenuItem *item = sender;
-    if (item.state == NSOffState) {
-        [item setState:NSOnState];
+    if (item.state == NSControlStateValueOff) {
+        [item setState:NSControlStateValueOn];
         
         BOOL found = NO;
         int idx;
@@ -1003,7 +1024,7 @@ enum abb_form_fields {
         if (c) {
             [fileListView removeTableColumn:c];
         }
-        [item setState:NSOffState];
+        [item setState:NSControlStateValueOff];
     }
     
 }
@@ -1125,13 +1146,13 @@ enum abb_form_fields {
 {
     NSOpenPanel * panel = [NSOpenPanel openPanel];
     
-    [panel setPrompt: NSLocalizedString(@"Select", "Preferences -> Open panel prompt")];
+    [panel setPrompt: NSLocalizedString(@"Select", "Settings -> Open panel prompt")];
     [panel setAllowsMultipleSelection: NO];
     [panel setCanChooseFiles: NO];
     [panel setCanChooseDirectories: YES];
     [panel setCanCreateDirectories: YES];
     [panel beginSheetModalForWindow:saveAsPanel completionHandler:^(NSInteger result) {
-        if (result == NSFileHandlingPanelOKButton) {
+        if (result == NSModalResponseOK) {
             NSURL *folderURL = [panel URL];
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 

@@ -4,6 +4,7 @@
 *.dmg
 
 build/
+local/
 
 *.pbxuser
 *.perspective

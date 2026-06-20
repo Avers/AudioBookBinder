@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1B27C44F2FBCA80D00E3F1AE /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 1B27C44E2FBCA80D00E3F1AE /* AppIcon.icon */; };
+		1B8BB8442FCE036900775ABD /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B8BB8432FCE036900775ABD /* UniformTypeIdentifiers.framework */; };
+		1B8BB8462FCE20C900775ABD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B8BB8452FCE20C900775ABD /* AVFoundation.framework */; };
 		8DD76F9A0486AA7600D96B5E /* abbinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* abbinder.m */; settings = {ATTRIBUTES = (); }; };
 		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
 		8DD76F9F0486AA7600D96B5E /* AudioBookBinder.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6859EA3029092ED04C91782 /* AudioBookBinder.1 */; };
@@ -249,6 +251,8 @@
 		08FB7796FE84155DC02AAC07 /* abbinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = abbinder.m; sourceTree = "<group>"; };
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		1B27C44E2FBCA80D00E3F1AE /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
+		1B8BB8432FCE036900775ABD /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
+		1B8BB8452FCE20C900775ABD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		32A70AAB03705E1F00C91783 /* AudioBookBinder_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioBookBinder_Prefix.pch; sourceTree = "<group>"; };
 		8DD76FA10486AA7600D96B5E /* abbinder */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = abbinder; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F02CE10101EA8B100AE315D /* AudioBinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioBinder.h; sourceTree = "<group>"; };
@@ -500,7 +504,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B8BB8442FCE036900775ABD /* UniformTypeIdentifiers.framework in Frameworks */,
 				9F4D516D2930708C00EC5662 /* libmp4v2.a in Frameworks */,
+				1B8BB8462FCE20C900775ABD /* AVFoundation.framework in Frameworks */,
 				9FD5D3651CEA5146008B74AF /* QuartzCore.framework in Frameworks */,
 				9F6FA3A011191A4D0047728F /* Foundation.framework in Frameworks */,
 				9F6FA3A111191A4D0047728F /* AudioToolbox.framework in Frameworks */,
@@ -841,6 +847,8 @@
 		9F4D516C2930708C00EC5662 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1B8BB8452FCE20C900775ABD /* AVFoundation.framework */,
+				1B8BB8432FCE036900775ABD /* UniformTypeIdentifiers.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1559,7 +1567,7 @@
 					"-framework",
 					AppKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.bluezbox.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.aversion.AudioBookBinder;
 				PRODUCT_NAME = AudioBookBinder;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1599,7 +1607,7 @@
 					"-framework",
 					AppKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.bluezbox.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.aversion.AudioBookBinder;
 				PRODUCT_NAME = AudioBookBinder;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1710,7 +1718,7 @@
 					"-framework",
 					AppKit,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.bluezbox.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.aversion.AudioBookBinder;
 				PRODUCT_NAME = AudioBookBinder;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
