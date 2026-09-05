@@ -413,10 +413,6 @@
 		9F6440151CDFE14100DABC17 /* QueueWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QueueWindow.xib; sourceTree = "<group>"; };
 		9F695F091D87ACC0000C9493 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		9F695F0A1D87ACC0000C9493 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AudioBinderWindow.xib; sourceTree = "<group>"; };
-		9F695F0B1D87ACFC000C9493 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/MainMenu.strings; sourceTree = "<group>"; };
-		9F695F0F1D87ACFD000C9493 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = "ru.lproj/AudioBookBinder-InfoPlist.strings"; sourceTree = "<group>"; };
-		9F695F171D87ACFE000C9493 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AudioBinderWindow.strings; sourceTree = "<group>"; };
-		9F695F181D87ACFE000C9493 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9F695F1A1D87AD1F000C9493 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = "Base.lproj/AudioBookBinder-InfoPlist.strings"; sourceTree = "<group>"; };
 		9F695F1C1D87AE18000C9493 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		9F695F1D1D87AE18000C9493 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = "nb.lproj/AudioBookBinder-InfoPlist.strings"; sourceTree = "<group>"; };
