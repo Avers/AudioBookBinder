@@ -17,10 +17,10 @@
 		9F02CE19101EABCD00AE315D /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F02CE18101EABCD00AE315D /* AudioToolbox.framework */; };
 		9F02CE4C101EBB9600AE315D /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F02CE4B101EBB9600AE315D /* CoreServices.framework */; };
 		9F02CE66101FF8D900AE315D /* ABBLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F02CE65101FF8D900AE315D /* ABBLog.m */; };
-		9F02D007102161FD00AE315D /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F02D006102161FD00AE315D /* QTKit.framework */; };
 		9F1FFD5D185D6F8F005EF748 /* AudioBinderWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1FFD5C185D6F8F005EF748 /* AudioBinderWindowController.m */; };
 		9F1FFD60185E7955005EF748 /* AudioBinderWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F1FFD5E185E7955005EF748 /* AudioBinderWindow.xib */; };
 		9F1FFD681862A27D005EF748 /* StatsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F1FFD671862A27D005EF748 /* StatsManager.m */; };
+		9F3E99E6303B8E79007711A0 /* abbinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E99E5303B8E79007711A0 /* abbinder.swift */; };
 		9F455945116AF4FB00BA501C /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 9F455944116AF4FB00BA501C /* Credits.rtf */; };
 		9F4D50D72930608C00EC5662 /* descriptors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F4D50382930608B00EC5662 /* descriptors.cpp */; };
 		9F4D50D82930608C00EC5662 /* atom_damr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F4D50392930608B00EC5662 /* atom_damr.cpp */; };
@@ -178,7 +178,6 @@
 		9F6FA3A011191A4D0047728F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
 		9F6FA3A111191A4D0047728F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F02CE18101EABCD00AE315D /* AudioToolbox.framework */; };
 		9F6FA3A211191A4D0047728F /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F02CE4B101EBB9600AE315D /* CoreServices.framework */; };
-		9F6FA3A311191A4D0047728F /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F02D006102161FD00AE315D /* QTKit.framework */; };
 		9F6FA3A711191A5D0047728F /* ABBLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F02CE65101FF8D900AE315D /* ABBLog.m */; };
 		9F6FA3BE11191AEA0047728F /* AudioBookBinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F6FA3BD11191AEA0047728F /* AudioBookBinder.m */; };
 		9F6FA3D8111BBBC20047728F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F6FA3D6111BBBC20047728F /* MainMenu.xib */; };
@@ -191,6 +190,8 @@
 		9F8238E91166C01B00F6D1D8 /* sparkle_dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 9F8238E81166C01B00F6D1D8 /* sparkle_dsa_pub.pem */; };
 		9F86C0CF1023D99300E65B00 /* MP4Atom.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F86C0CE1023D99300E65B00 /* MP4Atom.m */; };
 		9F86C0D21023DAC000E65B00 /* MP4File.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F86C0D11023DAC000E65B00 /* MP4File.m */; };
+		9F9DCD20303BCA660020BCB3 /* ConsoleDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9DCD1E303B97AA0020BCB3 /* ConsoleDelegate.swift */; };
+		9F9DCD23303BE04A0020BCB3 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 9F9DCD22303BE04A0020BCB3 /* ArgumentParser */; };
 		9FA52D9211C2F100003FD879 /* AudioFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F6FA4A8111E56090047728F /* AudioFile.m */; };
 		9FA52D9F11C2FFCE003FD879 /* Chapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA52D9E11C2FFCE003FD879 /* Chapter.m */; };
 		9FA52DA011C2FFCE003FD879 /* Chapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA52D9E11C2FFCE003FD879 /* Chapter.m */; };
@@ -199,7 +200,6 @@
 		9FAB14821161A51400A2F36A /* PrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FAB14811161A51400A2F36A /* PrefsController.m */; };
 		9FB4DE0711C05C0E007B3DDE /* MetaEditor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9FB4DE0611C05C0E007B3DDE /* MetaEditor.mm */; };
 		9FB4DE0811C05C0E007B3DDE /* MetaEditor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9FB4DE0611C05C0E007B3DDE /* MetaEditor.mm */; };
-		9FBCBF46102A6A2C0067AE9F /* ConsoleDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBCBF45102A6A2C0067AE9F /* ConsoleDelegate.m */; };
 		9FC46A2E22ADB97D003F57C7 /* AudioBinderWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F1FFD5E185E7955005EF748 /* AudioBinderWindow.xib */; };
 		9FD5D3651CEA5146008B74AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD5D3641CEA5146008B74AF /* QuartzCore.framework */; };
 		9FD5D3681CEA549E008B74AF /* QueueOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD5D3671CEA549E008B74AF /* QueueOverlayView.m */; };
@@ -248,7 +248,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		08FB7796FE84155DC02AAC07 /* abbinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = abbinder.m; sourceTree = "<group>"; };
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		1B27C44E2FBCA80D00E3F1AE /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		1B8BB8432FCE036900775ABD /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
@@ -261,11 +260,12 @@
 		9F02CE4B101EBB9600AE315D /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		9F02CE64101FF8D900AE315D /* ABBLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABBLog.h; sourceTree = "<group>"; };
 		9F02CE65101FF8D900AE315D /* ABBLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABBLog.m; sourceTree = "<group>"; };
-		9F02D006102161FD00AE315D /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		9F1FFD5B185D6F8F005EF748 /* AudioBinderWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioBinderWindowController.h; sourceTree = "<group>"; };
 		9F1FFD5C185D6F8F005EF748 /* AudioBinderWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioBinderWindowController.m; sourceTree = "<group>"; };
 		9F1FFD661862A27D005EF748 /* StatsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsManager.h; sourceTree = "<group>"; };
 		9F1FFD671862A27D005EF748 /* StatsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsManager.m; sourceTree = "<group>"; };
+		9F3E99E5303B8E79007711A0 /* abbinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = abbinder.swift; sourceTree = "<group>"; };
+		9F3E99E7303B8E7C007711A0 /* abbinder-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "abbinder-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F455944116AF4FB00BA501C /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		9F4D50302930600600EC5662 /* libmp4v2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmp4v2.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F4D50382930608B00EC5662 /* descriptors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = descriptors.cpp; sourceTree = "<group>"; };
@@ -419,10 +419,6 @@
 		9F6440151CDFE14100DABC17 /* QueueWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QueueWindow.xib; sourceTree = "<group>"; };
 		9F695F091D87ACC0000C9493 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		9F695F0A1D87ACC0000C9493 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AudioBinderWindow.xib; sourceTree = "<group>"; };
-		9F695F0B1D87ACFC000C9493 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/MainMenu.strings; sourceTree = "<group>"; };
-		9F695F0F1D87ACFD000C9493 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = "ru.lproj/AudioBookBinder-InfoPlist.strings"; sourceTree = "<group>"; };
-		9F695F171D87ACFE000C9493 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AudioBinderWindow.strings; sourceTree = "<group>"; };
-		9F695F181D87ACFE000C9493 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9F695F1A1D87AD1F000C9493 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = "Base.lproj/AudioBookBinder-InfoPlist.strings"; sourceTree = "<group>"; };
 		9F695F1C1D87AE18000C9493 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		9F695F1D1D87AE18000C9493 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = "nb.lproj/AudioBookBinder-InfoPlist.strings"; sourceTree = "<group>"; };
@@ -458,6 +454,7 @@
 		9F86C0CE1023D99300E65B00 /* MP4Atom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MP4Atom.m; sourceTree = "<group>"; };
 		9F86C0D01023DAC000E65B00 /* MP4File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MP4File.h; sourceTree = "<group>"; };
 		9F86C0D11023DAC000E65B00 /* MP4File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MP4File.m; sourceTree = "<group>"; };
+		9F9DCD1E303B97AA0020BCB3 /* ConsoleDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleDelegate.swift; sourceTree = "<group>"; };
 		9FA52D9D11C2FFCE003FD879 /* Chapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chapter.h; sourceTree = "<group>"; };
 		9FA52D9E11C2FFCE003FD879 /* Chapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chapter.m; sourceTree = "<group>"; };
 		9FAB146911619F9F00A2F36A /* ExpandedPathToIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandedPathToIconTransformer.h; sourceTree = "<group>"; };
@@ -470,8 +467,6 @@
 		9FB4DE0511C05C0E007B3DDE /* MetaEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetaEditor.h; sourceTree = "<group>"; };
 		9FB4DE0611C05C0E007B3DDE /* MetaEditor.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MetaEditor.mm; sourceTree = "<group>"; };
 		9FB964F21CD81F9A0028268F /* ConfigNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigNames.h; sourceTree = "<group>"; };
-		9FBCBF44102A6A2C0067AE9F /* ConsoleDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsoleDelegate.h; sourceTree = "<group>"; };
-		9FBCBF45102A6A2C0067AE9F /* ConsoleDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsoleDelegate.m; sourceTree = "<group>"; };
 		9FD5D3641CEA5146008B74AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9FD5D3661CEA549E008B74AF /* QueueOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueueOverlayView.h; sourceTree = "<group>"; };
 		9FD5D3671CEA549E008B74AF /* QueueOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueueOverlayView.m; sourceTree = "<group>"; };
@@ -488,8 +483,8 @@
 				9F4D516E2930709300EC5662 /* libmp4v2.a in Frameworks */,
 				8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */,
 				9F02CE19101EABCD00AE315D /* AudioToolbox.framework in Frameworks */,
+				9F9DCD23303BE04A0020BCB3 /* ArgumentParser in Frameworks */,
 				9F02CE4C101EBB9600AE315D /* CoreServices.framework in Frameworks */,
-				9F02D007102161FD00AE315D /* QTKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,7 +506,6 @@
 				9F6FA3A011191A4D0047728F /* Foundation.framework in Frameworks */,
 				9F6FA3A111191A4D0047728F /* AudioToolbox.framework in Frameworks */,
 				9F6FA3A211191A4D0047728F /* CoreServices.framework in Frameworks */,
-				9F6FA3A311191A4D0047728F /* QTKit.framework in Frameworks */,
 				9F7829D3129F8C6000763A5B /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -542,7 +536,7 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				08FB7796FE84155DC02AAC07 /* abbinder.m */,
+				9F3E99E5303B8E79007711A0 /* abbinder.swift */,
 				9F02CE64101FF8D900AE315D /* ABBLog.h */,
 				9F02CE65101FF8D900AE315D /* ABBLog.m */,
 				9F02CE10101EA8B100AE315D /* AudioBinder.h */,
@@ -562,8 +556,6 @@
 				9FA52D9D11C2FFCE003FD879 /* Chapter.h */,
 				9FA52D9E11C2FFCE003FD879 /* Chapter.m */,
 				9FB964F21CD81F9A0028268F /* ConfigNames.h */,
-				9FBCBF44102A6A2C0067AE9F /* ConsoleDelegate.h */,
-				9FBCBF45102A6A2C0067AE9F /* ConsoleDelegate.m */,
 				9F62872A1194D502000D3A05 /* CoverImageView.h */,
 				9F62872B1194D502000D3A05 /* CoverImageView.m */,
 				9FAB146911619F9F00A2F36A /* ExpandedPathToIconTransformer.h */,
@@ -587,6 +579,8 @@
 				9F1FFD671862A27D005EF748 /* StatsManager.m */,
 				9FD5D3661CEA549E008B74AF /* QueueOverlayView.h */,
 				9FD5D3671CEA549E008B74AF /* QueueOverlayView.m */,
+				9F3E99E7303B8E7C007711A0 /* abbinder-Bridging-Header.h */,
+				9F9DCD1E303B97AA0020BCB3 /* ConsoleDelegate.swift */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -594,7 +588,6 @@
 		08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				9F02D006102161FD00AE315D /* QTKit.framework */,
 				9F02CE4B101EBB9600AE315D /* CoreServices.framework */,
 				9F02CE18101EABCD00AE315D /* AudioToolbox.framework */,
 				08FB779EFE84155DC02AAC07 /* Foundation.framework */,
@@ -1000,6 +993,9 @@
 				LastUpgradeCheck = 2650;
 				ORGANIZATIONNAME = AudioBookBinder;
 				TargetAttributes = {
+					8DD76F960486AA7600D96B5E = {
+						LastSwiftMigration = 2660;
+					};
 					9F4D502F2930600600EC5662 = {
 						CreatedOnToolsVersion = 14.1;
 						ProvisioningStyle = Automatic;
@@ -1020,6 +1016,9 @@
 				de,
 			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* AudioBookBinder */;
+			packageReferences = (
+				9F9DCD21303BDFBE0020BCB3 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
+			);
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -1062,13 +1061,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DD76F9A0486AA7600D96B5E /* abbinder.m in Sources */,
+				9F9DCD20303BCA660020BCB3 /* ConsoleDelegate.swift in Sources */,
 				9F02CE12101EA8B100AE315D /* AudioBinder.m in Sources */,
 				9F02CE66101FF8D900AE315D /* ABBLog.m in Sources */,
 				9F86C0CF1023D99300E65B00 /* MP4Atom.m in Sources */,
 				9F86C0D21023DAC000E65B00 /* MP4File.m in Sources */,
-				9FBCBF46102A6A2C0067AE9F /* ConsoleDelegate.m in Sources */,
 				9FB4DE0811C05C0E007B3DDE /* MetaEditor.mm in Sources */,
+				9F3E99E6303B8E79007711A0 /* abbinder.swift in Sources */,
 				9FA52D9211C2F100003FD879 /* AudioFile.m in Sources */,
 				9FA52DA011C2FFCE003FD879 /* Chapter.m in Sources */,
 				9F61BE3A11FBBC8D00654B3B /* AudioBookVolume.m in Sources */,
@@ -1278,6 +1277,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
@@ -1294,6 +1294,9 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = abbinder;
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "abbinder-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -1301,6 +1304,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "-";
 				DEAD_CODE_STRIPPING = YES;
@@ -1315,6 +1319,8 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = abbinder;
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "abbinder-Bridging-Header.h";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
@@ -1343,6 +1349,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = LUGH554YTG;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -1398,6 +1405,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = LUGH554YTG;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -1531,6 +1539,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				USE_HEADERMAP = NO;
+				VALID_ARCHS = "x86_64 x86_64h arm64 arm64e";
 			};
 			name = AppStore;
 		};
@@ -1642,6 +1651,7 @@
 				CODE_SIGN_IDENTITY = "Apple Distribution";
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = LUGH554YTG;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -1672,6 +1682,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "-";
 				DEAD_CODE_STRIPPING = YES;
@@ -1685,6 +1696,9 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = abbinder;
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "abbinder-Bridging-Header.h";
+				SWIFT_VERSION = 6.0;
+				VALID_ARCHS = "x86_64 x86_64h arm64 arm64e";
 			};
 			name = AppStore;
 		};
@@ -1696,7 +1710,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "AudioBookBinder-appstore.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
@@ -1723,6 +1737,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
+				VALID_ARCHS = "x86_64 x86_64h arm64 arm64e";
 				ZERO_LINK = NO;
 			};
 			name = AppStore;
@@ -1771,6 +1786,25 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9F9DCD21303BDFBE0020BCB3 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9F9DCD22303BE04A0020BCB3 /* ArgumentParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9F9DCD21303BDFBE0020BCB3 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+			productName = ArgumentParser;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
 }

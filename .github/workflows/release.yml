@@ -42,7 +42,6 @@ jobs:
           security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
 
-
       - name: build targets
         run: |
           defaults write $PWD/AudioBookBinder-Info CFBundleShortVersionString $release_version
@@ -71,6 +70,7 @@ jobs:
           xcrun notarytool submit --wait --timeout 5m --key-id "$ASC_KEY_ID" --key key.p8 --issuer "$ASC_ISSUER" AudiobookBinder.dmg
           xcrun stapler staple AudiobookBinder.dmg
           mv AudiobookBinder.dmg AudiobookBinder-${release_version}.dmg
+          cp -f dist/abbinder abbinder-${release_version}
 
       - name: release
         uses: softprops/action-gh-release@v1
@@ -80,3 +80,4 @@ jobs:
           draft: true
           files: |
             AudiobookBinder*.dmg
+            abbinder-*
