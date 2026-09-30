@@ -768,9 +768,10 @@ enum abb_form_fields {
     // make sure that at this point we have valid bitrate in settings
     // setup channels/samplerate
     
-    _binder.channels = (UInt32)[[NSUserDefaults standardUserDefaults] integerForKey:kConfigChannels];
-    _binder.sampleRate = [[NSUserDefaults standardUserDefaults] floatForKey:kConfigSampleRate];
-    _binder.bitrate = (UInt32)[[NSUserDefaults standardUserDefaults] integerForKey:kConfigBitrate];
+     _binder.channels = (UInt32)[[NSUserDefaults standardUserDefaults] integerForKey:kConfigChannels];
+     _binder.sampleRate = [[NSUserDefaults standardUserDefaults] floatForKey:kConfigSampleRate];
+     _binder.bitrate = (UInt32)[[NSUserDefaults standardUserDefaults] integerForKey:kConfigBitrate];
+     _binder.useOriginalQuality = [[NSUserDefaults standardUserDefaults] boolForKey:kConfigUseOriginalQuality];
     
     [self performSelectorOnMainThread:@selector(showProgressPanel:) withObject:nil waitUntilDone:NO];
 

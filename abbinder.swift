@@ -80,6 +80,9 @@ struct abbinder: ParsableCommand {
     @Flag(name: .short,
           help: ArgumentHelp("print some info on files being converted"))
     var verbose = false
+    @Flag(name: .customShort("O"),
+          help: ArgumentHelp("use original quality settings from source files"))
+    var useOriginalQuality = false
 
 
     @Argument(help: ArgumentHelp("input files and chapter names"))
@@ -286,6 +289,7 @@ struct abbinder: ParsableCommand {
 
         binder.channels = channels
         binder.sampleRate = Float(samplerate)
+        binder.useOriginalQuality = useOriginalQuality
 
         if let bitrate {
             let bitrateBps = UInt32(bitrate) * 1000

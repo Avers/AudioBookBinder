@@ -53,6 +53,7 @@
 @property (assign) UInt32 channels;
 @property (assign) float sampleRate;
 @property (assign) UInt32 bitrate;
+@property (assign) BOOL useOriginalQuality;
 @property (readonly) NSMutableArray *volumes;
 
 -(id) init;

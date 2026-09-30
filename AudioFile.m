@@ -60,25 +60,25 @@
     CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault,
                                                  (CFStringRef)self.filePath,
                                                  kCFURLPOSIXPathStyle, FALSE);
-    if (AudioFileOpenURL(url, 0x01, 0, &audioFile) == noErr) {        
+    if (AudioFileOpenURL(url, 0x01, 0, &audioFile) == noErr) {
         UInt32 len = sizeof(NSTimeInterval);
         NSTimeInterval dur;
-        if (AudioFileGetProperty(audioFile, kAudioFilePropertyEstimatedDuration, &len, &dur) == noErr) 
+        if (AudioFileGetProperty(audioFile, kAudioFilePropertyEstimatedDuration, &len, &dur) == noErr)
             self.duration = [[NSNumber alloc] initWithInt:(dur*1000)];
 
         UInt32 writable = 0, size;
-        status = AudioFileGetPropertyInfo(audioFile, 
+        status = AudioFileGetPropertyInfo(audioFile,
             kAudioFilePropertyInfoDictionary, &size, &writable);
 
         if ( status == noErr ) {
             CFDictionaryRef info = NULL;
-            status = AudioFileGetProperty(audioFile, 
+            status = AudioFileGetProperty(audioFile,
                 kAudioFilePropertyInfoDictionary, &size, &info);
             if ( status == noErr ) {
                 NSDictionary *properties = [NSDictionary dictionaryWithDictionary:(__bridge NSDictionary*)info];
                 // convert properties to CString and back to get rid of
                 // trailing zero bytes in NSString
-                
+
                 id obj = [properties objectForKey:@"artist"];
 
                 if (obj)
@@ -87,19 +87,34 @@
                     self.artist = @"";
 
                 obj = [properties objectForKey:@"title"];
-                if (obj) 
+                if (obj)
                     self.name = [NSString stringWithUTF8String:[obj UTF8String]];
                 else
                     self.name = @"";
-                
+
                 obj = [properties objectForKey:@"album"];
-                if (obj) 
+                if (obj)
                     self.album = [NSString stringWithUTF8String:[obj UTF8String]];
                 else
                     self.album = @"";
             }
             CFRelease(info);
         }
+
+        AudioStreamBasicDescription format;
+        size = sizeof(format);
+        status = AudioFileGetProperty(audioFile, kAudioFilePropertyDataFormat, &size, &format);
+        if (status == noErr) {
+            self.sourceSampleRate = format.mSampleRate;
+            self.sourceChannels = format.mChannelsPerFrame;
+        }
+
+        UInt32 bitrate = 0;
+        size = sizeof(bitrate);
+        status = AudioFileGetProperty(audioFile, kAudioFilePropertyBitRate, &size, &bitrate);
+        if (status == noErr)
+            self.sourceBitrate = bitrate;
+
         self.valid = YES;
         AudioFileClose(audioFile);
     }

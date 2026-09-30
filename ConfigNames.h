@@ -37,5 +37,6 @@
 #define kConfigMaxVolumeSize                @"MaxVolumeSize"
 #define kConfigSortAudioFiles               @"SortAudioFiles"
 #define kConfigChaptersEnabled              @"ChaptersEnabled"
+#define kConfigUseOriginalQuality           @"UseOriginalQuality"
 
 #endif // __CONFIG_NAMES_H__

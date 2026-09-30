@@ -75,6 +75,7 @@ static BOOL hackChecked = NO;
     [appDefaults setObject:[NSNumber numberWithInt:12] forKey:kConfigMaxVolumeSize];
     [appDefaults setObject:[NSNumber numberWithBool:YES] forKey:kConfigSortAudioFiles];
     [appDefaults setObject:[NSNumber numberWithBool:YES] forKey:kConfigChaptersEnabled];
+    [appDefaults setObject:[NSNumber numberWithBool:NO] forKey:kConfigUseOriginalQuality];
     
     // for pop-up button Destination Folder
 	NSArray* paths = NSSearchPathForDirectoriesInDomains(

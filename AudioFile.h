@@ -36,6 +36,9 @@
 @property(readwrite, copy) NSString *artist;
 @property(readwrite, copy) NSString *name;
 @property(readwrite, copy) NSString *album;
+@property(readwrite, assign) float sourceSampleRate;
+@property(readwrite, assign) UInt32 sourceChannels;
+@property(readwrite, assign) UInt32 sourceBitrate;
 
 - (id) initWithPath:(NSString*)path;
 - (NSData *)artworkData;

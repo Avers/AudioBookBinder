@@ -157,12 +157,23 @@ stringForOSStatus(OSStatus err)
     NSFileManager *fm;
     int filesConverted = 0;
     for (AudioBookVolume *v in _volumes) {
-    
+
         if ([v.inputFiles count] == 0)
         {
             ABBLog(@"No input files");
             [_delegate volumeFailed:v.filename reason:@"No input files"];
             return NO;
+        }
+
+        if (_useOriginalQuality && [v.inputFiles count] > 0) {
+            AudioFile *firstFile = [v.inputFiles objectAtIndex:0];
+            if (firstFile.sourceSampleRate > 0)
+                _sampleRate = firstFile.sourceSampleRate;
+            if (firstFile.sourceChannels > 0)
+                _channels = firstFile.sourceChannels;
+            if (firstFile.sourceBitrate > 0)
+                _bitrate = firstFile.sourceBitrate;
+            _bitrateSet = NO;
         }
 
         if ([self openOutFile:v.filename] == NO)
@@ -175,10 +186,10 @@ stringForOSStatus(OSStatus err)
 
         for (AudioFile *inFile in v.inputFiles) {
             NSString *reason;
-            
+
             if ([self convertOneFile:inFile reason:&reason] == NO)
             {
-                // We failed 
+                // We failed
                 if (![_delegate continueFailedConversion:inFile reason:reason])
                 {
                     failed = YES;
@@ -187,16 +198,16 @@ stringForOSStatus(OSStatus err)
             }
             else
                 filesConverted++;
-            
+
             if (_canceled)
                 break;
-        
-        } 
 
-        _outBookLength += _outFileLength; 
-        
+        }
+
+        _outBookLength += _outFileLength;
+
         [self closeOutFile];
-        
+
         if (failed || _canceled)
             break;
         else
